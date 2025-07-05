@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaFormats", "MediaFormats\MediaFormats.csproj", "{1B2E0EFC-2A13-4B7D-BAB0-B2D694D9E41F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{5A31A8DD-5069-402E-933F-F2D43347D2AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B2E0EFC-2A13-4B7D-BAB0-B2D694D9E41F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B2E0EFC-2A13-4B7D-BAB0-B2D694D9E41F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B2E0EFC-2A13-4B7D-BAB0-B2D694D9E41F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B2E0EFC-2A13-4B7D-BAB0-B2D694D9E41F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A31A8DD-5069-402E-933F-F2D43347D2AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A31A8DD-5069-402E-933F-F2D43347D2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A31A8DD-5069-402E-933F-F2D43347D2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A31A8DD-5069-402E-933F-F2D43347D2AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {674CA02D-0300-4D9F-86C8-25267CE318A4}
+	EndGlobalSection
+EndGlobal
