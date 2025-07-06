@@ -1,4 +1,5 @@
 ﻿using MediaFormats.RIFF;
+using MediaFormats.RIFF.WAV;
 using System;
 using System.IO;
 
@@ -9,7 +10,7 @@ internal class Program
     static void Main()
     {
         var data = File.ReadAllBytes("DDOS.wav");
-        Console.WriteLine(RIFFCoder.IsFormat(data));
-        Console.WriteLine(RIFFCoder.Decode(data));
+        var riffChain = RIFFCoder.Decode(data);
+        Console.WriteLine(string.Join('\n', WAVCoder.Decode(riffChain).info));
     }
 }

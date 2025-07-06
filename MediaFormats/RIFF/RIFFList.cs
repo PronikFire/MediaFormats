@@ -6,8 +6,29 @@ using System.Threading.Tasks;
 
 namespace MediaFormats.RIFF;
 
-public class RIFFList(string name, RIFFChunk[] subChunks, string id) : RIFFChunk(id, (uint)subChunks.Sum(sC => sC.size + 8) + 4)
+public class RIFFList(string name, RIFFChunk[] subChunks) : RIFFChunk("LIST", (uint)subChunks.Sum(sC => sC.Size + 8) + 4)
 {
-    public readonly string name = name;
-    public readonly RIFFChunk[] subChunks = subChunks;
+    public string Name
+    {
+        get => name;
+        set
+        {
+            if (value.Length > 4)
+                throw new ArgumentException($"Name cannot be longer than 4 characters.", nameof(value));
+            name = value;
+        }
+    }
+
+    public RIFFChunk[] SubChunks
+    {
+        get => subChunks;
+        set
+        {
+            subChunks = value;
+            size = (uint)subChunks.Sum(sC => sC.Size + 8) + 4;
+        }
+    }
+
+    protected string name = name;
+    private RIFFChunk[] subChunks = subChunks;
 }

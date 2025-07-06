@@ -11,21 +11,16 @@ public static class RIFFCoder
 {
     public static bool IsFormat(byte[] data) => data.Length >= 4 && Encoding.ASCII.GetString(data[..4]) == "RIFF";
 
-    /// <summary>
-    /// Reads chunks of the first layer.
-    /// </summary>
-    /// <param name="source">Data as an array of bytes.</param>
-    /// <returns>First layer chunks.</returns>
-    /// <exception cref="Exception"></exception>
-    public static RIFFList Decode(byte[] data)
+    public static RIFFChain Decode(byte[] data)
     {
-        if (GetFirstChunk(data) is not RIFFList list || list.id != "RIFF")
-            throw new Exception("The data is not RIFF format.");
+        if (Encoding.ASCII.GetString(data[..4]) != "RIFF")
+            throw new ArgumentException("The data is not RIFF format.");
 
-        if (list.size > data.Length - 8)
-            throw new Exception("The data is corrupted.");
+        string format = Encoding.ASCII.GetString(data[8..12]);
 
-        return list;
+        var subChunks = GetAllChunks(data[12..]);
+
+        return new RIFFChain(format, subChunks);
     }
 
     internal static RIFFChunk GetFirstChunk(byte[] data)
@@ -36,14 +31,14 @@ public static class RIFFCoder
         if (chSize > data.Length - 8)
             throw new Exception("The chunk is corrupted.");
 
-        if (chID != "LIST" && chID != "RIFF")
-            return new RIFFPayload(data[8..(8 + (int)chSize)], chID);
+        if (chID != "LIST")
+            return new RIFFPayload(chID, data[8..(8 + (int)chSize)]);
 
         var name = Encoding.ASCII.GetString(data[8..12]);
 
         var subChunks = GetAllChunks(data[12..(8 + (int)chSize)]);
 
-        return new RIFFList(name, subChunks, chID);
+        return new RIFFList(name, subChunks);
     }
 
     internal static RIFFChunk[] GetAllChunks(byte[] data)
@@ -52,28 +47,19 @@ public static class RIFFCoder
         for (uint i = 0; i < data.Length;)
         {
             var chunk = GetFirstChunk(data[(int)i..]);
-            i += 8 + chunk.size;
-            if ((chunk.size % 2) != 0 && i < data.Length)
+            i += 8 + chunk.Size;
+            if ((chunk.Size % 2) != 0 && i < data.Length)
                 i++;
             subChunks.Add(chunk);
         }
         return [.. subChunks];
     }
 
-    /* Maybe later
-    public static byte[] Encode(RIFFData data)
+    /*public static byte[] Encode(RIFFChain chain)
     {
-        var chunks = new Dictionary<string, byte[]>();
-
-        for (int i = 0; i < source.Length;)
-        {
-            var chID = BitConverter.ToString(source[i..4]);
-            i += 4;
-            var chSize = BitConverter.ToInt32(source.AsSpan()[i..4]);
-            i += 4;
-            var chData = source[i..chSize];
-            i += chSize;
-            chunks.Add(chID, chData);
-        }
+        List<byte> data = [];
+        data.AddRange(Encoding.ASCII.GetBytes("RIFF"));
+        data.AddRange(BitConverter.GetBytes(4 + (uint)chain.subChunks.Sum(sC => (int)sC.Size + 8)));
+        
     }*/
 }

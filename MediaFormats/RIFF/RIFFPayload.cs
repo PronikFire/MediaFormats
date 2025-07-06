@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace MediaFormats.RIFF;
 
-public class RIFFPayload(byte[] data, string id) : RIFFChunk(id, (uint)data.Length)
+public class RIFFPayload(string id, byte[] data) : RIFFChunk(id, (uint)data.Length)
 {
-    public readonly byte[] data = data;
+    public byte[] Data
+    {
+        get => data;
+        set
+        {
+            data = value;
+            size = (uint)value.Length;
+        }
+    }
+
+    private byte[] data = data;
 }
